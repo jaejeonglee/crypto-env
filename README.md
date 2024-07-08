@@ -1,6 +1,10 @@
 # crypto-env-js
 
-`crypto-env-js` is a library designed to securely manage environment variables through encryption. This library uses symmetric key encryption to encrypt environment variables and decrypt them as needed.
+To prevent sensitive information from being exposed in the code, it is common practice to manage it using .env files. However, since the contents of environment variables exist in plain text, if someone gains access to the directory, they can easily view the information.
+
+While `secure-env` can be used to hide plain text in .env files, the symmetric key still resides in the .env file. In this case, you can use `crypto-env-js` to securely manage the .env file containing the symmetric key for the .enc file.
+
+`crypto-env-js` allows you to input the symmetric key directly, so you can hide the key from the directory. The contents decrypted using the symmetric key are then re-encrypted with a random key and stored in memory. You only need to know the KEY of the environment variable. The encrypted VALUES are decrypted and provided each time they are used. This helps to minimize the risk of dumps.
 
 ## Requires
 

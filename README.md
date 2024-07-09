@@ -1,19 +1,17 @@
 # crypto-env-js
 
-To prevent sensitive information from being exposed in the code, it is common practice to manage it using .env files. However, since the contents of environment variables exist in plain text, if someone gains access to the directory, they can easily view the information.
+If you use secure-env, you can hide the plain text in your .env file, but the symmetric key can still be seen in the .env file. This is like leaving the key in front of the door.
 
-While `secure-env` can be used to hide plain text in .env files, the symmetric key still resides in the .env file. In this case, you can use `crypto-env-js` to securely manage the .env file containing the symmetric key for the .enc file.
-
-`crypto-env-js` allows you to input the symmetric key directly, so you can hide the key from the directory. The contents decrypted using the symmetric key are then re-encrypted with a random key and stored in memory. You only need to know the KEY of the environment variable. The encrypted VALUES are decrypted and provided each time they are used. This helps to minimize the risk of dumps.
+crypto-env-js provides the following features: 1. Enter the symmetric key directly. (The plain text of the .env file is no longer needed on the server. Just keep it safe in a secure place on your local machine.) 2. Re-encrypts the decrypted plain text with a random key and stores it in memory. (To prevent memory dumps!) 3. Can refresh the random key and encrypted plain text every time you use the environment variable. Hackers will have a hard time. (This is optional. Please refer to the usage instructions.)
 
 ## Requires
 
-    .env.enc file encrypted using secure-env.
+    .env.enc (You can create the encrypted .env file using 'npm secure-env'.)
 
 ## How it works
 
-    1. Initialization: The initEnv function prompts the user to enter a symmetric key, which is used to decrypt the environment variable file. The decrypted environment variables are then encrypted with a new random key and stored in memory.
-    2. Decryption and Re-encryption: The globalEnv function decrypts the environment variables stored in memory and immediately re-encrypts them with a new random key to ensure sensitive information does not remain in memory for long.
+1. Initialization: The initEnv function prompts the user to enter a symmetric key, which is used to decrypt the environment variable file. The decrypted environment variables are then encrypted with a new random key and stored in memory.
+2. Decryption and Re-encryption: The globalEnv function decrypts the environment variables stored in memory and immediately re-encrypts(option) them with a new random key to ensure sensitive information does not remain in memory for long.
 
 ## Installation
 

@@ -4,6 +4,7 @@ const readlineSync = require("readline-sync");
 
 let encryptedEnv = {};
 let randomKey;
+let renewOption;
 
 const initEnv = () => {
   try {
@@ -16,8 +17,27 @@ const initEnv = () => {
     if (!decryptedEnv) {
       throw new Error();
     }
+    while (true) {
+      const option = readlineSync.question(
+        "\nrenew on every env usage:\n 1. yes\n 2. no\n 3. process exit\nEnter : "
+      );
 
-    encryptEnv(decryptedEnv);
+      if (option === "1") {
+        renewOption = true;
+        encryptEnv(decryptedEnv);
+
+        break;
+      } else if (option === "2") {
+        renewOption = false;
+        encryptEnv(decryptedEnv);
+
+        break;
+      } else if (option === "3") {
+        process.exit(1);
+      } else {
+        console.error("\n must be choose one");
+      }
+    }
   } catch (error) {
     console.error("Fail to initialize with key. Please check the key.");
     process.exit(1);
@@ -29,7 +49,9 @@ const globalEnv = () => {
     const decryptedString = decrypt(encryptedEnv);
     const decryptedEnv = JSON.parse(decryptedString);
 
-    encryptEnv(decryptedEnv);
+    if (renewOption) {
+      encryptEnv(decryptedEnv);
+    }
     return decryptedEnv;
   } catch (error) {
     throw new Error();
